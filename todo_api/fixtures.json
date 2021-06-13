@@ -1,0 +1,15 @@
+[{
+  "module": "todo_api.todo.models",
+  "model": "TodoStatus",
+  "data": [
+    {
+      "id": 1,
+      "label": "pending"
+    },
+    {
+      "id": 2,
+      "label": "done",
+      "complete": true
+    }
+  ]
+}]
