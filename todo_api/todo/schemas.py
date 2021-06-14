@@ -16,16 +16,19 @@ class TodoStatusSchema(Schema):
 class TodoSchema(Schema):
     """Todo Marshmallow Schema
 
-    Schema used for loading and dumping Todo
+    Schema for loading and dumping Todos
     """
 
-    id = fields.UUID()
-    title = fields.String(allow_none=False)
+    id = fields.String()
+    title = fields.String(
+        allow_none=False,
+        required=True,
+    )
     description = fields.String()
     due_date = fields.Date()
     status_id = fields.Integer(load_only=True)
-    created_at = fields.Date(dump_only=True)
-    updated_at = fields.Date(dump_only=True)
+    created_at = fields.DateTime()
+    updated_at = fields.DateTime()
     status = fields.Nested(TodoStatusSchema(only={"id", "label"}), dump_only=True)
 
     @post_load
@@ -49,5 +52,7 @@ class TodoFilterSchema(Schema):
 
     Schema for filtering/sorting todos by status and due date
     """
+
+    past_due = fields.Boolean(missing=False)
     due_soon = fields.Boolean(missing=True)
     status = fields.Integer(missing=1)

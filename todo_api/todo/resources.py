@@ -1,3 +1,5 @@
+from datetime import date
+
 from flask_restful import Resource
 from webargs.flaskparser import use_args, use_kwargs
 from werkzeug.exceptions import BadRequest, NotFound
@@ -90,6 +92,11 @@ class TodoListResource(Resource):
         todos = Todo.query
         if kwargs["status"]:
             todos = todos.filter_by(**{"status_id": kwargs["status"]})
+        if kwargs["past_due"]:
+            todos = todos.filter(
+                Todo.due_date is not None,
+                Todo.due_date < date.today(),
+            )
         if kwargs["due_soon"]:
             todos = todos.order_by("due_date")
         else:

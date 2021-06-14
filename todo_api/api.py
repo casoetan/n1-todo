@@ -1,11 +1,13 @@
+import json
 import logging
 
 from flask import Flask
 from flask_restful import Api
+from werkzeug.exceptions import HTTPException
 
 from todo_api.constants import PROJECT_ROOT, TODO_DATABASE
 from todo_api.db import db
-from todo_api.todo.routes import (
+from todo_api.todo.resources import (
     TODO_ENDPOINT,
     TODO_LIST_ENDPOINT,
     TodoListResource,
@@ -13,7 +15,7 @@ from todo_api.todo.routes import (
 )
 
 
-def create_app():
+def create_app(db_path=None):
     """Creates Flask application.
 
     This function creates the Flask app, Flask-Restful API,
@@ -32,19 +34,44 @@ def create_app():
 
     app = Flask(__name__)
 
-    app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:////{PROJECT_ROOT}/{TODO_DATABASE}"
+    if db_path:
+        app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:////{db_path}"
+    else:
+        app.config[
+            "SQLALCHEMY_DATABASE_URI"
+        ] = f"sqlite:////{PROJECT_ROOT}/{TODO_DATABASE}"
+
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.init_app(app)
 
+    # Setup SQLite database on first request
     @app.before_first_request
     def create_table():
         db.create_all()
 
+    # Populate todo status table with initial data
     @app.before_first_request
     def load_initial_data():
         from todo_api import load_data
 
         load_data.load_fixtures()
+
+    # Error handling
+    @app.errorhandler(HTTPException)
+    def handle_exception(e):
+        """Return JSON instead of HTML for HTTP errors."""
+
+        # Use correct headers and status code from the error
+        response = e.get_response()
+        response.data = json.dumps(
+            {
+                "code": e.code,
+                "name": e.name,
+                "description": e.description,
+            }
+        )
+        response.content_type = "application/json"
+        return response
 
     api = Api(app)
     api.add_resource(TodoResource, TODO_ENDPOINT)
