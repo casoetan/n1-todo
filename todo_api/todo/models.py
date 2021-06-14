@@ -10,7 +10,6 @@ class TodoStatus(db.Model):
     Represents all possible todo status
     """
 
-    # FIXME: Fixture file to populate this field
     __tablename__ = "todo_statuses"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)

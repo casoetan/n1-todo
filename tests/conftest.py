@@ -15,13 +15,12 @@ def app():
     app.config["TESTING"] = True
 
     with app.app_context():
+        db.drop_all()
         db.init_app(app)
         db.create_all()
 
     yield app
 
-    # tear down
-    # FIXME: Remove table after tests
     with app.app_context():
         db.session.remove()
         db.drop_all()
@@ -34,7 +33,7 @@ def load_data(app):
 
     with app.app_context():
         for todo_obj in fixtures_data:
-            todo = TodoSchema().load(todo_obj)
+            todo = TodoSchema(context={"raw": True}).load(todo_obj)
             db.session.add(todo)
 
         db.session.commit()

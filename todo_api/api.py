@@ -58,9 +58,27 @@ def create_app(db_path=None):
         load_data.load_fixtures()
 
     # Error handling
+    @app.errorhandler(422)
+    def handle_unprocessable_entity(e):
+        response = e.get_response()
+
+        exc = getattr(e, "exc")
+        response.data = json.dumps(
+            {
+                "code": e.code,
+                "name": e.name,
+                "description": exc.messages if exc else ["Invalid request"],
+            }
+        )
+        response.content_type = "application/json"
+        return response
+
     @app.errorhandler(HTTPException)
     def handle_exception(e):
         """Return JSON instead of HTML for HTTP errors."""
+
+        # Log exceptions
+        logging.exception(e)
 
         # Use correct headers and status code from the error
         response = e.get_response()
