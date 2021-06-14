@@ -21,7 +21,21 @@ black = "^21.6b0"
 isort = "^5.8.0"
 pytest = "^6.2.4"
 mypy = "^0.902"
+pytest-cov = "^2.12.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+profile = "black"
+
+[tool.black]
+target-version = ['py39']
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths = [
+    "tests",
+]
