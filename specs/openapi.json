@@ -1,0 +1,329 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "n1-todo",
+    "description": "",
+    "version": "0.1.0",
+    "contact": {
+      "name": "Charles"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5000/",
+      "description": "Local development"
+    }
+  ],
+  "paths": {
+    "/api/todos/": {
+      "get": {
+        "summary": "Get todos",
+        "description": "",
+        "operationId": "f0658769-dc39-44c5-b1a1-ad5bfbb38b2c",
+        "parameters": [
+          {
+            "name": "due_soon",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "1",
+              "description": "Order todos by when they are due 1: true 0: false"
+            }
+          },
+          {
+            "name": "past_due",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "0",
+              "description": "If todo item is past due 1: true, 0: false"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "1",
+              "description": "Status of todo items. Supports pending (1) and done (2)"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "title": {
+                        "type": "string",
+                        "example": "Read a book"
+                      },
+                      "description": {
+                        "type": "string",
+                        "example": "Book description"
+                      },
+                      "updated_at": {
+                        "type": "string",
+                        "example": "2021-06-14T23:23:18.804234"
+                      },
+                      "created_at": {
+                        "type": "string",
+                        "example": "2021-06-14T23:23:18.804229"
+                      },
+                      "status": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "example": 1
+                          },
+                          "label": {
+                            "type": "string",
+                            "example": "pending"
+                          }
+                        }
+                      },
+                      "tags": {
+                        "type": "string",
+                        "example": []
+                      },
+                      "id": {
+                        "type": "string",
+                        "example": "f2e5fbed380046f5b85dc8d0cc50ccc6"
+                      },
+                      "due_date": {
+                        "type": "string",
+                        "example": "2021-06-14"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create todo",
+        "description": "",
+        "operationId": "3954d691-aa4b-4395-a19d-c27178ab5154",
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "application/json; charset=utf-8",
+              "description": ""
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Create a todo",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "created_at": {
+                      "type": "string",
+                      "example": "2021-06-14T23:30:20.614047"
+                    },
+                    "due_date": {
+                      "type": "string",
+                      "example": "2021-06-14"
+                    },
+                    "status": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "label": {
+                          "type": "string",
+                          "example": "pending"
+                        }
+                      }
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "example": "2021-06-14T23:30:20.614053"
+                    },
+                    "id": {
+                      "type": "string",
+                      "example": "f5b47b9b1e634dfeb965933da84841b3"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Description"
+                    },
+                    "tags": {
+                      "type": "string",
+                      "items": {
+                        "type": "string"
+                      },
+                      "example": [
+                        "flask",
+                        "marshmallow"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "example": "Read a tech document"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/todos/<todo-id>/": {
+      "get": {
+        "summary": "Get todo",
+        "description": "Get a todo item by id",
+        "operationId": "58c3bf85-fd26-4127-b522-759b20804496",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "title": {
+                      "type": "string",
+                      "example": "A better title"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "First description"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "example": "2021-06-14T23:23:44.357013"
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "example": "2021-06-14T23:23:21.576147"
+                    },
+                    "status": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "label": {
+                          "type": "string",
+                          "example": "done"
+                        }
+                      }
+                    },
+                    "tags": {
+                      "type": "string",
+                      "example": []
+                    },
+                    "id": {
+                      "type": "string",
+                      "example": "64147869938a45dd876a55c63948ba63"
+                    },
+                    "due_date": {
+                      "type": "string",
+                      "example": "2021-06-14"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Patch todo",
+        "description": "Updata a todo",
+        "operationId": "b3b4c7b5-82f5-4eec-a725-afb331c6d6a5",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "title": {
+                      "type": "string",
+                      "example": "A better title"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "First description"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "example": "2021-06-14T23:23:44.357013"
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "example": "2021-06-14T23:23:21.576147"
+                    },
+                    "status": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "example": 2
+                        },
+                        "label": {
+                          "type": "string",
+                          "example": "done"
+                        }
+                      }
+                    },
+                    "tags": {
+                      "type": "string",
+                      "example": []
+                    },
+                    "id": {
+                      "type": "string",
+                      "example": "64147869938a45dd876a55c63948ba63"
+                    },
+                    "due_date": {
+                      "type": "string",
+                      "example": "2021-06-14"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete todo",
+        "description": "Delete a todo",
+        "operationId": "1e1c5525-29b8-495f-968e-153870795bc0",
+        "responses": {
+          "204": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

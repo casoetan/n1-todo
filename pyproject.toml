@@ -1,8 +1,8 @@
 [tool.poetry]
-name = "north_api"
+name = "n1_api"
 version = "0.1.0"
-description = "TODO App API"
-authors = ["Charles Soetan <casoetan@gmail.com>"]
+description = "N1 Todo API"
+authors = ["Charles"]
 license = "MIT"
 
 [tool.poetry.dependencies]
@@ -20,7 +20,6 @@ Flask-Cors = "^3.0.10"
 black = "^21.6b0"
 isort = "^5.8.0"
 pytest = "^6.2.4"
-mypy = "^0.902"
 pytest-cov = "^2.12.1"
 
 [build-system]

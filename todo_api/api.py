@@ -23,7 +23,7 @@ def create_app(db_path=None):
     and Flask-SQLAlchemy connection
 
     :param db_location: Connection string to the database
-    :test_config: Configuration for testing
+    :db_path: Optionally specify database path
     :return: Initialized Flask app
     """
     logging.basicConfig(
@@ -94,6 +94,7 @@ def create_app(db_path=None):
         response.content_type = "application/json"
         return response
 
+    # API Resources
     api = Api(app)
     api.add_resource(TodoResource, TODO_ENDPOINT)
     api.add_resource(TodoListResource, TODO_LIST_ENDPOINT)

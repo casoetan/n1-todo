@@ -28,7 +28,10 @@ brew install poetry
 ```
 
 > Following commands should be run from inside cloned directory
+
 - Install dependencies
+
+> Please setup a virtualenv before installing packages
 
 ```sh
 poetry install
@@ -37,13 +40,13 @@ poetry install
 - Setup database
 
 ```sh
-flask db upgrade
+env FLASK_APP=todo_api/api FLASK_ENV=development python -m flask db upgrade
 ```
 
 - Start application
 
 ```sh
-flask run
+env FLASK_APP=todo_api/api FLASK_ENV=development python -m flask run
 ```
 
 ## Testing
@@ -53,3 +56,7 @@ The project uses [pytest](https://github.com/pytest-dev/pytest) for testing
 ```sh
 pytest --cov ./todo_api
 ```
+
+## Specs
+
+Open API specs in [OpenAPI](./specs/openapi.json)

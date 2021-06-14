@@ -13,7 +13,7 @@ To contribute to the project, follow the [setup guide](./README.md#Setup)
     - Patch tag if bug fix
     - Minor tag if adding a new feature without breaking changes
     - Major tag if your changes will introduce a breaking change
-- Add changes made to [changelog](./CHANGELOG.md)
+- Add changes made to [changelog](./CHANGELOGS.md)
 - Submit a PR against the develop branch
 - Once PR is approved merge into develop and create a release branch from develop with your changes
 - Submit PR with release branch targetting main

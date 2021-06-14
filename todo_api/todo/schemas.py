@@ -9,10 +9,8 @@ from todo_api.todo.models import Todo
 
 
 def due_date_in_future(data):
-    if not data:
-        pass
-
-    if data < date.today():
+    # Validate due date
+    if data and data < date.today():
         raise ValidationError("Due date cannot be in the past")
 
 
@@ -66,12 +64,9 @@ class TodoSchema(Schema):
 
     @validates_schema
     def validate_date(self, data, **kwargs):
-        if (
-            self.context.get("raw") is False
-            and data.get("due_date")
-            and data["due_date"] < date.today()
-        ):
-            raise ValidationError("Due date cannot be in the past")
+        # This allows to bypass check when loading test data
+        if self.context.get("raw") is False:
+            due_date_in_future(data.get("due_date"))
 
 
 class TodoPatchSchema(Schema):
