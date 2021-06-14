@@ -30,6 +30,7 @@ class Todo(db.Model):
     title = db.Column(db.String(120), nullable=False)
     description = db.Column(db.Text, default="")
     due_date = db.Column(db.Date)
+    tags = db.Column(db.String(240), default="[]")
     status_id = db.Column(
         db.Integer, db.ForeignKey("todo_statuses.id"), nullable=False, default=1
     )

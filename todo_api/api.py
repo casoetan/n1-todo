@@ -6,7 +6,7 @@ from flask_restful import Api
 from werkzeug.exceptions import HTTPException
 
 from todo_api.constants import PROJECT_ROOT, TODO_DATABASE
-from todo_api.db import db
+from todo_api.db import db, migrate
 from todo_api.todo.resources import (
     TODO_ENDPOINT,
     TODO_LIST_ENDPOINT,
@@ -43,6 +43,7 @@ def create_app(db_path=None):
 
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.init_app(app)
+    migrate.init_app(app, db)
 
     # Setup SQLite database on first request
     @app.before_first_request

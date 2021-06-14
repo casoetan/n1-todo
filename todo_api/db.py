@@ -1,5 +1,6 @@
 import uuid
 
+from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
 """Database configurations
@@ -7,6 +8,7 @@ from flask_sqlalchemy import SQLAlchemy
 Configure an SQLite database
 """
 db = SQLAlchemy()
+migrate = Migrate()
 
 
 def generate_uuid():
