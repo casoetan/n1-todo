@@ -2,6 +2,7 @@ import json
 import logging
 
 from flask import Flask
+from flask_cors import CORS
 from flask_restful import Api
 from werkzeug.exceptions import HTTPException
 
@@ -33,6 +34,7 @@ def create_app(db_path=None):
     )
 
     app = Flask(__name__)
+    CORS(app)
 
     if db_path:
         app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:////{db_path}"
