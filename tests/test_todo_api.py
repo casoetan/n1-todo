@@ -64,3 +64,32 @@ def test_get_single_todo(client):
 def test_get_single_todo_not_found(client):
     response = client.get(f"{TODO_LIST_ENDPOINT}/000000000000000000000000000000A1")
     assert response.status_code == 404
+
+
+def test_delete_todo(client):
+    response = client.delete(f"{TODO_LIST_ENDPOINT}/00000000000000000000000000000001")
+
+    assert response.status_code == 204
+
+    response = client.get(f"{TODO_LIST_ENDPOINT}/00000000000000000000000000000001")
+    assert response.status_code == 404
+
+
+def test_update_todo_status(client):
+    patch_status = {"status": 2}
+    response = client.patch(
+        f"{TODO_LIST_ENDPOINT}/00000000000000000000000000000002", json=patch_status
+    )
+    assert response.status_code == 200
+    assert response.json["id"] == "00000000000000000000000000000002"
+    assert response.json["status"] == {"label": "done", "id": 2}
+
+
+def test_update_todo_title(client):
+    patch_title = {"title": "New title"}
+    response = client.patch(
+        f"{TODO_LIST_ENDPOINT}/00000000000000000000000000000002", json=patch_title
+    )
+    assert response.status_code == 200
+    assert response.json["id"] == "00000000000000000000000000000002"
+    assert response.json["title"] == patch_title["title"]
